@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Reporte = require('./models/ReporteSchema');
+const TipoReporte = require('./models/TipoReporteSchema');
 
 const app = express();
 app.use(cors());
@@ -43,6 +44,23 @@ app.delete('/api/reportes/:id', async (req, res) => {
         res.json({ mensaje: 'Reporte eliminado exitosamente.' });
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al eliminar reporte.', error: error.message });
+    }
+});
+app.get('/api/tipos-reporte', async (req, res) => {
+    try {
+        const tipos = await TipoReporte.find();
+        res.json(tipos);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener tipos de reporte.', error: error.message });
+    }
+});
+app.post('/api/tipos-reporte', async (req, res) => {
+    try {
+        const nuevoTipo = new TipoReporte({ nombre: req.body.nombre });
+        await nuevoTipo.save();
+        res.status(201).json({ mensaje: 'Tipo de reporte creado exitosamente.' });
+    } catch (error) {
+        res.status(400).json({ mensaje: 'Error al crear tipo de reporte.', error: error.message });
     }
 });
 
