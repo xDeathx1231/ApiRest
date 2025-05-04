@@ -1,10 +1,9 @@
-// models/ReporteSchema.js
-
 const mongoose = require('mongoose');
 
 const ReporteSchema = new mongoose.Schema({
   tipoReporte: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'TipoReporte',
     required: true
   },
   comentario: {
@@ -37,5 +36,4 @@ const ReporteSchema = new mongoose.Schema({
   }
 });
 
-// Exportamos el modelo
 module.exports = mongoose.model('Reporte', ReporteSchema);
